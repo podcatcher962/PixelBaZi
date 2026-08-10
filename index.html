@@ -120,13 +120,40 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 .ss-tag.info{border-color:var(--accent);color:var(--accent)}
 .hechong-item{font-size:11px;padding:4px 8px;display:inline-block;margin:2px 4px}
 .hc-he{color:var(--m)}.hc-chong{color:var(--f)}.hc-hai{color:#ff9800}.hc-xing{color:#e94560}
+/* Menu */
+.menu-bar{display:flex;justify-content:center;gap:16px;margin:0 0 12px;flex-wrap:wrap}
+.menu-bar a{color:var(--dim);font-size:11px;cursor:pointer;letter-spacing:2px;text-decoration:none;border-bottom:1px solid transparent;transition:all 0.2s}
+.menu-bar a:hover{color:var(--gold);border-color:var(--accent)}
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:100;justify-content:center;align-items:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--card);border:3px solid var(--bdr);max-width:480px;width:100%;max-height:80vh;overflow-y:auto;padding:24px 28px;position:relative}
+.modal-box::before{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border:1px solid var(--accent);pointer-events:none}
+.modal-box h2{color:var(--gold);font-size:16px;letter-spacing:3px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bdr)}
+.modal-box p,.modal-box li{font-size:11px;color:var(--text);line-height:1.8;margin:6px 0}
+.modal-box ul{padding-left:16px}
+.modal-close{position:absolute;top:12px;right:16px;color:var(--dim);font-size:20px;cursor:pointer;background:none;border:none;font-family:inherit}
+.modal-close:hover{color:var(--gold)}
+.author{font-size:10px;color:var(--dim);letter-spacing:2px}
 </style>
 </head>
 <body>
 
 <div class="hdr">
-<h1>⚔ 像素命盘 v2 ⚔</h1>
+<h1>⚔ 像素命盘 ⚔</h1>
 <div class="sub">PIXEL BAZI · 八字排盘 + 命理深析 · 传统文化参考 · 仅供娱乐</div>
+<div class="author">© 永远的兰兰 · Forever Chitanda</div>
+</div>
+
+<div class="menu-bar">
+<a onclick="openModal('guide')">📖 使用说明</a>
+<a onclick="openModal('disclaim')">⚠️ 免责声明</a>
+<a onclick="openModal('about')">ℹ️ 关于</a>
+</div>
+
+<!-- Modals -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+<div class="modal-box" id="modalBox"></div>
 </div>
 
 <!-- INPUT -->
@@ -899,6 +926,44 @@ function downloadAnalysis(){
 function goBack(){document.getElementById('inputPage').style.display='block';document.getElementById('result').style.display='none';document.getElementById('result').classList.remove('show')}
 function randomBazi(){const y=1950+Math.floor(Math.random()*60),m=1+Math.floor(Math.random()*12),d=1+Math.floor(Math.random()*28),h=[0,1,3,5,7,9,11,13,15,17,19,21,23][Math.floor(Math.random()*13)];document.getElementById('by').value=y;document.getElementById('bm').value=m;document.getElementById('bd').value=d;document.getElementById('bh').value=h;showT('🎲 '+y+'年'+m+'月'+d+'日 '+h+'时')}
 function showT(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),2200)}
+
+// ---- Help Modals ----
+const MODAL_CONTENT={
+  guide:`<h2>📖 使用说明</h2>
+<p><b>第一步：</b>输入公历出生年月日，选择出生时辰和性别。</p>
+<p><b>第二步（可选）：</b>在测字框输入任意文字或数字，系统将为你拆字解字。</p>
+<p><b>第三步：</b>点击「生成命盘」，查看你的八字排盘与分析。</p>
+<p><b>两个 Tab：</b></p>
+<ul>
+<li><b>🎮 像素 RPG 卡</b> — 八字化为角色属性卡，可下载 PNG 或复制文案发朋友圈。</li>
+<li><b>📜 命理深析</b> — 大运、十神、流年、七维分析、神煞、星象、测字。可复制或导出报告。</li>
+</ul>
+<p><b>术语解释：</b>带虚线下划线的术语可悬停查看解释。</p>
+<p><b>关于准确度：</b>八字排盘基于天文历法算法，精准可靠。命理解读参考传统学说，仅供文化研究和娱乐参考。</p>`,
+  disclaim:`<h2>⚠️ 免责声明</h2>
+<p>本工具基于中国传统命理学说（八字/四柱），<b>仅供娱乐和文化参考</b>。</p>
+<p>所有分析解读均源自传统命理学文献与算法推演，并非科学预测或确定性论断。任何关于人生运势、事业发展、婚姻感情、健康状况等的描述，均不代表事实预言。</p>
+<p><b>请勿将本工具的输出结果作为重大人生决策的依据</b>，包括但不限于：医疗决策、投资理财、法律行为、职业选择等。</p>
+<p>人生之路不在命盘之中，而在脚下每一步。命理可以是一种认识自我的视角，但真正改变人生的，永远是自己的行动与选择。</p>
+<p>使用本工具即表示你已理解并接受以上声明。</p>`,
+  about:`<h2>ℹ️ 关于像素命盘</h2>
+<p><b>像素命盘 PixelBaZi</b> 是一款单文件 HTML 中国传统八字命理工具，将千年命理学说与像素 RPG 美学相融合。</p>
+<p><b>技术栈：</b>纯前端 HTML/CSS/JS + Canvas<br>
+<b>天文算法：</b>lunar-javascript 天文历法库<br>
+<b>命理体系：</b>子平八字、纳音、十神、神煞、二十八宿、河图洛书</p>
+<p><b>作者：</b>永远的兰兰 (Forever Chitanda)</p>
+<p><b>开源地址：</b><a href="https://github.com/podcatcher962/PixelBaZi" target="_blank" style="color:var(--accent)">github.com/podcatcher962/PixelBaZi</a></p>
+<p><b>在线体验：</b><a href="https://podcatcher962.github.io/PixelBaZi/" target="_blank" style="color:var(--accent)">podcatcher962.github.io/PixelBaZi</a></p>
+<p style="margin-top:10px;color:var(--dim);font-size:10px">© 永远的兰兰 · Forever Chitanda · 2026</p>`
+};
+
+function openModal(type){
+  document.getElementById('modalBox').innerHTML=`<button class="modal-close" onclick="closeModal()">✕</button>${MODAL_CONTENT[type]||''}`;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
 </script>
 </body>
 </html>
