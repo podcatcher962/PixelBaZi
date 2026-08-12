@@ -3,19 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>像素命盘 v2 · Pixel BaZi RPG + 命理深析</title>
+<meta name="description" content="像素命盘 PixelBaZi · 免费在线八字排盘工具，四柱八字、大运流年、十神神煞、二十八宿、河图洛书，附像素 RPG 角色卡。单文件 HTML，中英双语。">
+<meta name="keywords" content="八字,排盘,命盘,四柱,八字算命,免费,在线,像素,命理,大运,流年">
+<meta property="og:title" content="像素命盘 · Pixel BaZi RPG + 命理深析">
+<meta property="og:description" content="免费在线八字排盘 · 像素 RPG 角色卡 · 大运流年十神神煞 · 中英双语">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0d0d1a">
+<title>像素命盘 v3 · Pixel BaZi RPG + 命理深析</title>
 <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.13/lunar.min.js"></script>
 <style>
 :root{
   --bg:#0d0d1a;--card:#13132b;--bdr:#1e3799;--accent:#4a69bd;
   --gold:#ffd700;--text:#c8d6e5;--dim:#7f8fa6;
   --m:#4CAF50;--f:#F44336;--e:#FF9800;--g:#FFD700;--w:#2196F3;
+  --inp:#0c0c22;--inpText:#f1f2f6;--mutedBdr:#2a2a4a;--foot:#576574;
+  --grid:rgba(30,55,153,0.06);--inset:rgba(0,0,0,0.3);--soft:rgba(0,0,0,0.2)
+}
+html[data-theme="light"]{
+  --bg:#eef1f8;--card:#ffffff;--bdr:#b8c4e8;--accent:#4a69bd;
+  --gold:#b8860b;--text:#2f3542;--dim:#636e72;
+  --inp:#e8ecf5;--inpText:#2f3542;--mutedBdr:#c8d0e5;--foot:#a4b0be;
+  --grid:rgba(74,105,189,0.08);--inset:rgba(0,0,0,0.04);--soft:rgba(0,0,0,0.05)
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   background:var(--bg);color:var(--text);font-family:'Courier New','Microsoft YaHei',monospace;
   min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px 12px 40px;
-  background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(30,55,153,0.06) 31px,rgba(30,55,153,0.06) 32px),repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(30,55,153,0.06) 31px,rgba(30,55,153,0.06) 32px);
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,var(--grid) 31px,var(--grid) 32px),repeating-linear-gradient(90deg,transparent,transparent 31px,var(--grid) 31px,var(--grid) 32px);
 }
 .hdr{text-align:center;margin:12px 0 20px}
 .hdr h1{font-size:26px;color:var(--gold);letter-spacing:5px;text-shadow:0 0 24px rgba(255,215,0,0.25)}
@@ -23,24 +37,24 @@ body{
 .card{
   background:var(--card);border:3px solid var(--bdr);padding:24px 28px 28px;
   max-width:520px;width:100%;position:relative;
-  box-shadow:0 0 40px rgba(30,55,153,0.2),inset 0 0 60px rgba(0,0,0,0.3);
+  box-shadow:0 0 40px rgba(74,105,189,0.2),inset 0 0 60px var(--inset);
 }
 .card::before{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border:1px solid var(--accent);pointer-events:none}
 .card::after{content:'';position:absolute;top:6px;left:6px;right:6px;bottom:6px;border:1px solid rgba(74,105,189,0.2);pointer-events:none}
 .lbl{display:block;color:var(--dim);font-size:11px;margin:10px 0 4px;letter-spacing:3px;text-transform:uppercase}
-input,select{width:100%;padding:10px 12px;background:#0c0c22;color:#f1f2f6;border:2px solid var(--bdr);font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s}
+input,select{width:100%;padding:10px 12px;background:var(--inp);color:var(--inpText);border:2px solid var(--bdr);font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s}
 input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 8px rgba(74,105,189,0.3)}
 .row{display:flex;gap:10px}.row>*{flex:1}
 .btn{width:100%;padding:13px;margin-top:14px;background:linear-gradient(180deg,#2c3e80,#1e2d6a);color:var(--gold);border:2px solid var(--accent);font-size:16px;font-family:inherit;cursor:pointer;letter-spacing:3px;transition:all 0.15s;text-shadow:0 0 8px rgba(255,215,0,0.3)}
 .btn:hover{background:linear-gradient(180deg,#3b50a0,#253d8a);border-color:var(--gold)}
 .btn:active{transform:scale(0.97)}
 .btn.sm{font-size:12px;padding:9px;letter-spacing:1px}
-.btn.muted{background:#0c0c22;color:var(--dim);border-color:#2a2a4a}
+.btn.muted{background:var(--inp);color:var(--dim);border-color:var(--mutedBdr)}
 .btn.muted:hover{color:var(--text);border-color:var(--accent)}
 
 /* Tabs */
 .tabs{display:flex;gap:0;margin-bottom:16px}
-.tab-btn{flex:1;padding:10px;background:#0c0c22;color:var(--dim);border:2px solid var(--bdr);font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:2px;transition:all 0.15s}
+.tab-btn{flex:1;padding:10px;background:var(--inp);color:var(--dim);border:2px solid var(--bdr);font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:2px;transition:all 0.15s}
 .tab-btn.active{background:var(--bdr);color:var(--gold);border-color:var(--accent)}
 .tab-btn:first-child{border-right:none}
 .tab-panel{display:none}
@@ -53,7 +67,7 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 8px rgba(74,1
 canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 
 .pillars-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
-.pil-item{background:#0c0c22;border:1px solid var(--bdr);padding:8px 10px;text-align:center;font-size:12px}
+.pil-item{background:var(--inp);border:1px solid var(--bdr);padding:8px 10px;text-align:center;font-size:12px}
 .pil-item .pname{font-size:10px;color:var(--dim)}
 .pil-item .pgz{font-size:24px;color:var(--gold);letter-spacing:5px;font-weight:bold}
 .pil-item .pny{font-size:10px;color:var(--accent);margin-top:2px}
@@ -61,7 +75,7 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 .bars-box{margin:10px 0}
 .el-row{display:flex;align-items:center;gap:6px;margin:3px 0;font-size:12px}
 .el-row .tag{width:18px;text-align:center;font-weight:bold;font-size:14px}
-.el-row .barbg{flex:1;height:10px;background:rgba(0,0,0,0.4);border:1px solid #222;position:relative}
+.el-row .barbg{flex:1;height:10px;background:rgba(0,0,0,0.4);border:1px solid var(--mutedBdr);position:relative}
 .el-row .barfill{height:100%;transition:width 1s ease}
 .el-row .val{width:32px;text-align:right;color:var(--dim);font-size:10px}
 .tag-m{color:var(--m)}.barfill-m{background:var(--m)}
@@ -76,18 +90,18 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 
 .dayun-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
 .dayun-table th,.dayun-table td{border:1px solid var(--bdr);padding:6px 8px;text-align:center}
-.dayun-table th{background:#0c0c22;color:var(--accent);font-size:10px}
+.dayun-table th{background:var(--inp);color:var(--accent);font-size:10px}
 .dayun-table td{color:var(--text)}
 .dayun-table .cur{background:rgba(30,55,153,0.35);color:var(--gold);font-weight:bold}
 
 .ten-god-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:8px 0}
-.tg-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#0c0c22;border:1px solid var(--bdr);font-size:12px}
-.tg-bar-outer{width:80px;height:6px;background:rgba(0,0,0,0.4);border:1px solid #222}
+.tg-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--inp);border:1px solid var(--bdr);font-size:12px}
+.tg-bar-outer{width:80px;height:6px;background:rgba(0,0,0,0.4);border:1px solid var(--mutedBdr)}
 .tg-bar-inner{height:100%;background:var(--accent)}
 .tg-cnt{color:var(--gold);font-weight:bold;min-width:24px;text-align:right}
 
 .dim-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
-.dim-card{background:#0c0c22;border:1px solid var(--bdr);padding:12px}
+.dim-card{background:var(--inp);border:1px solid var(--bdr);padding:12px}
 .dim-card .dc-hdr{display:flex;align-items:center;gap:6px;margin-bottom:8px}
 .dim-card .dc-icon{font-size:20px}
 .dim-card .dc-name{font-size:13px;color:var(--gold);font-weight:bold;letter-spacing:2px}
@@ -95,9 +109,13 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 .dim-card .dc-bars{display:flex;gap:6px;margin:6px 0}
 .dim-card .dc-bar{height:4px;flex:1;background:rgba(0,0,0,0.4);border-radius:0;overflow:hidden}
 .dim-card .dc-bar-fill{height:100%;transition:width 0.6s}
+.lang-switch{position:absolute;top:16px;right:20px;display:flex;gap:4px;z-index:10}
+.lang-switch button{padding:4px 10px;background:var(--card);color:var(--dim);border:1px solid var(--bdr);font-size:11px;cursor:pointer;font-family:inherit}
+.lang-switch button.active{background:var(--bdr);color:var(--gold)}
+.tr.en{display:none}
 .dim-card .dc-text{font-size:10px;color:var(--dim);line-height:1.6;margin-top:6px}
 
-.liunian-item{padding:10px 12px;margin:4px 0;background:#0c0c22;border:1px solid var(--bdr);font-size:11px}
+.liunian-item{padding:10px 12px;margin:4px 0;background:var(--inp);border:1px solid var(--bdr);font-size:11px}
 .liunian-item .ln-year{color:var(--gold);font-weight:bold;font-size:14px}
 .liunian-item .ln-detail{color:var(--dim);margin-top:4px;line-height:1.5}
 .liunian-item .ln-tag{display:inline-block;padding:1px 6px;margin:1px 2px;font-size:9px;border:1px solid;border-radius:0}
@@ -110,11 +128,11 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 .remark{text-align:center;color:var(--dim);font-size:10px;margin-top:16px;padding-top:12px;border-top:1px solid rgba(30,55,153,0.4);line-height:1.8}
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--bdr);color:var(--gold);padding:10px 22px;border:2px solid var(--accent);font-size:13px;font-family:inherit;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;letter-spacing:1px}
 .toast.show{opacity:1}
-.foot{margin-top:30px;color:#576574;font-size:10px;text-align:center}.foot a{color:var(--accent);text-decoration:none}
+.foot{margin-top:30px;color:var(--foot);font-size:10px;text-align:center}.foot a{color:var(--accent);text-decoration:none}
 .tip{border-bottom:1px dashed var(--accent);cursor:help;position:relative;display:inline-block}
 .tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--bdr);color:var(--gold);padding:4px 10px;font-size:10px;white-space:nowrap;z-index:99;border:1px solid var(--accent);pointer-events:none}
 .shensha-tags{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
-.ss-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:1px solid var(--bdr);font-size:11px;background:#0c0c22}
+.ss-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:1px solid var(--bdr);font-size:11px;background:var(--inp)}
 .ss-tag.good{border-color:var(--m);color:var(--m)}
 .ss-tag.warn{border-color:#ff9800;color:#ff9800}
 .ss-tag.info{border-color:var(--accent);color:var(--accent)}
@@ -141,14 +159,19 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 
 <div class="hdr">
 <h1>⚔ 像素命盘 ⚔</h1>
-<div class="sub">PIXEL BAZI · 八字排盘 + 命理深析 · 传统文化参考 · 仅供娱乐</div>
+<div class="sub tr" data-zh="PIXEL BAZI · 八字排盘 + 命理深析 · 传统文化参考 · 仅供娱乐" data-en="PIXEL BAZI · Four Pillars + Deep Analysis · Cultural Reference Only">PIXEL BAZI · 八字排盘 + 命理深析 · 传统文化参考 · 仅供娱乐</div>
 <div class="author">© 永远的兰兰 · Forever Chitanda</div>
 </div>
 
 <div class="menu-bar">
-<a onclick="openModal('guide')">📖 使用说明</a>
-<a onclick="openModal('disclaim')">⚠️ 免责声明</a>
-<a onclick="openModal('about')">ℹ️ 关于</a>
+<a onclick="openModal('guide')">📖 <span class="tr" data-zh="使用说明" data-en="Guide">使用说明</span></a>
+<a onclick="openModal('disclaim')">⚠️ <span class="tr" data-zh="免责声明" data-en="Disclaimer">免责声明</span></a>
+<a onclick="openModal('about')">ℹ️ <span class="tr" data-zh="关于" data-en="About">关于</span></a>
+<span style="color:var(--bdr);margin:0 2px">|</span>
+<a id="btnZh2" class="active" onclick="setLang2('zh')" style="font-weight:bold">中</a>
+<a id="btnEn2" onclick="setLang2('en')">EN</a>
+<a id="btnTheme2" onclick="toggleTheme2()" style="font-size:13px">🌙</a>
+<a onclick="openHistory2()">🕘 <span class="tr" data-zh="历史" data-en="History">历史</span></a>
 </div>
 
 <!-- Modals -->
@@ -159,12 +182,12 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 <!-- INPUT -->
 <div class="card" id="inputPage">
 <div class="row">
-<div><label class="lbl">出生年份</label><input type="number" id="by" value="1995" min="1900" max="2100"></div>
-<div><label class="lbl">月份</label><input type="number" id="bm" value="6" min="1" max="12"></div>
-<div><label class="lbl">日期</label><input type="number" id="bd" value="15" min="1" max="31"></div>
+<div><label class="lbl tr" data-zh="出生年份" data-en="Birth Year">出生年份</label><input type="number" id="by" value="1995" min="1900" max="2100"></div>
+<div><label class="lbl tr" data-zh="月份" data-en="Month">月份</label><input type="number" id="bm" value="6" min="1" max="12"></div>
+<div><label class="lbl tr" data-zh="日期" data-en="Day">日期</label><input type="number" id="bd" value="15" min="1" max="31"></div>
 </div>
 <div class="row" style="margin-top:10px">
-<div><label class="lbl">时辰 (0-23时)</label>
+<div><label class="lbl tr" data-zh="时辰 (0-23时)" data-en="Hour (0-23)">时辰 (0-23时)</label>
 <select id="bh">
 <option value="0">0时 子</option><option value="1">1时 丑</option><option value="3">3时 寅</option>
 <option value="5">5时 卯</option><option value="7">7时 辰</option><option value="9">9时 巳</option>
@@ -172,21 +195,21 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 <option value="13">13时 未</option><option value="15">15时 申</option><option value="17">17时 酉</option>
 <option value="19">19时 戌</option><option value="21">21时 亥</option><option value="23">23时 子</option>
 </select></div>
-<div><label class="lbl">性别</label>
-<select id="bg"><option value="male">♂ 男</option><option value="female">♀ 女</option></select></div>
+<div><label class="lbl tr" data-zh="性别" data-en="Gender">性别</label>
+<select id="bg"><option value="male">♂ <span class="tr" data-zh="男" data-en="Male">男</span></option><option value="female">♀ <span class="tr" data-zh="女" data-en="Female">女</span></option></select></div>
 </div>
-<div style="margin-top:10px"><label class="lbl">✍️ 随意输入一字/数字（选填·测字）</label>
-<input type="text" id="zi" value="" placeholder="如：安 / 888 / 顺心" maxlength="10" style="text-align:center;font-size:18px;letter-spacing:6px"></div>
-<button class="btn" onclick="doCalc()">▸ 生成命盘 ◂</button>
-<button class="btn sm muted" onclick="randomBazi()" style="margin-top:6px">🎲 随机生辰测试</button>
-<div class="remark">输入公历生日 · 本工具参考传统命理学说<br>人生之路不在命盘之中，而在脚下每一步</div>
+<div style="margin-top:10px"><label class="lbl tr" data-zh="✍️ 随意输入一字/数字（选填·测字）" data-en="✍️ Input any character/number (optional)">✍️ 随意输入一字/数字（选填·测字）</label>
+<input type="text" id="zi" value="" placeholder="如：安 / 888 / 顺心" maxlength="10" style="text-align:center;font-size:18px;letter-spacing:6px" data-ph-zh="如：安 / 888 / 顺心" data-ph-en="e.g. peace / 888"></div>
+<button class="btn tr" data-zh="▸ 生成命盘 ◂" data-en="▸ Generate Chart ◂" onclick="doCalc()">▸ 生成命盘 ◂</button>
+<button class="btn sm muted tr" data-zh="🎲 随机生辰测试" data-en="🎲 Random Test" onclick="randomBazi()" style="margin-top:6px">🎲 随机生辰测试</button>
+<div class="remark tr" data-zh="输入公历生日 · 本工具参考传统命理学说<br>人生之路不在命盘之中，而在脚下每一步" data-en="Enter Gregorian birth date · Cultural reference only<br>Your path is made by your steps, not your chart">输入公历生日 · 本工具参考传统命理学说<br>人生之路不在命盘之中，而在脚下每一步</div>
 </div>
 
 <!-- RESULT -->
 <div class="card" id="result">
 <div class="tabs">
-<button class="tab-btn active" onclick="switchTab('rpg')">🎮 像素 RPG 卡</button>
-<button class="tab-btn" onclick="switchTab('analysis')">📜 命理深析</button>
+<button class="tab-btn active tr" data-zh="🎮 像素 RPG 卡" data-en="🎮 RPG Card" onclick="switchTab('rpg')">🎮 像素 RPG 卡</button>
+<button class="tab-btn tr" data-zh="📜 命理深析" data-en="📜 Deep Analysis" onclick="switchTab('analysis')">📜 命理深析</button>
 </div>
 
 <!-- TAB: RPG Card -->
@@ -195,10 +218,10 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 <div class="pillars-grid" id="ecGrid"></div>
 <div class="bars-box" id="elBars"></div>
 <div class="share-box">
-<button class="btn" onclick="copyShare()">📋 复制文案</button>
-<button class="btn" onclick="downloadCard()">💾 下载命盘卡</button>
+<button class="btn tr" data-zh="📋 复制文案" data-en="📋 Copy Text" onclick="copyShare()">📋 复制文案</button>
+<button class="btn tr" data-zh="💾 下载命盘卡" data-en="💾 Download Card" onclick="downloadCard()">💾 下载命盘卡</button>
 </div>
-<button class="btn muted sm" style="margin-top:8px" onclick="goBack()">↺ 重新排盘</button>
+<button class="btn muted sm tr" data-zh="↺ 重新排盘" data-en="↺ Start Over" style="margin-top:8px" onclick="goBack()">↺ 重新排盘</button>
 <div class="remark" id="remark"></div>
 </div>
 
@@ -206,14 +229,14 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 <div class="tab-panel" id="tabAnalysis">
 <div id="analysisContent"></div>
 <div class="share-box" style="margin-top:12px">
-<button class="btn" onclick="copyAnalysis()">📋 复制分析报告</button>
-<button class="btn" onclick="downloadAnalysis()">💾 导出分析报告</button>
+<button class="btn tr" data-zh="📋 复制分析报告" data-en="📋 Copy Report" onclick="copyAnalysis()">📋 复制分析报告</button>
+<button class="btn tr" data-zh="💾 导出分析报告" data-en="💾 Export Report" onclick="downloadAnalysis()">💾 导出分析报告</button>
 </div>
-<button class="btn muted sm" style="margin-top:8px" onclick="goBack()">↺ 重新排盘</button>
+<button class="btn muted sm tr" data-zh="↺ 重新排盘" data-en="↺ Start Over" style="margin-top:8px" onclick="goBack()">↺ 重新排盘</button>
 </div>
 </div>
 
-<div class="foot">© 像素命盘 PixelBaZi v2 · Forever Chitanda · 参考传统命理学说 · 仅供娱乐</div>
+<div class="foot">© 像素命盘 PixelBaZi v3 · Forever Chitanda · 参考传统命理学说 · 仅供娱乐</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -444,11 +467,17 @@ function analyzeDimension(b,ss,cnt,yong){
   results.career=guan>=3?'官星有力，配合印星相助，在事业上具备领导与管理潜质。传统命理认为这样的格局适合在组织架构中发展，但真正的成就来自于持续的学习与担当。':
     guan>=1?'官星有根，职场中倾向于稳重负责。不必急于求成，稳扎稳打往往比锋芒毕露走得更远。':
     '官星偏弱，更倾向于自由独立的发展道路。不被框架所限也是一种优势，找到属于自己的节奏便是最好的职业路径。';
+  results.career_en=guan>=3?'Strong career stars suggest leadership potential. Traditional theory sees this as favorable for organizational growth - but true achievement comes from continuous learning.':
+    guan>=1?'Moderate career stars indicate steady professional development. Patience and consistency often outshine ambition.':
+    'Weaker career stars suggest an independent path. Freedom from constraints is its own advantage.';
   // 财运
   const cai=cnt.正财+cnt.偏财;
   results.wealth=cai>=3?`财星汇聚，理财意识敏锐。但${b.dayElem}命${yong.strong?'以身强能任财，财运之路较为顺畅':'需注意财多身弱，稳健守成为上'}。财富是生活的工具而非人生的目的。`:
     cai>=1?'财星有基，对金钱有务实的规划。一生财运呈稳步积累之势，不急不躁方为正道。':
     '财星不显，一生不以追求财富为主要驱动。精神的富足往往比物质更持久，淡泊中自有天地。';
+  results.wealth_en=cai>=3?`Strong wealth stars suggest financial acumen. Wealth is a tool, not life's purpose.`:
+    cai>=1?'Moderate wealth stars indicate steady accumulation. Patience builds lasting prosperity.':
+    'Mild wealth stars - material pursuit is not your main drive. Spiritual richness outlasts wealth.';
   // 婚姻
   const dayBranch=b.dayBranch;
   const dayBrHS=HIDDEN_STEMS[dayBranch]||[];
@@ -457,19 +486,32 @@ function analyzeDimension(b,ss,cnt,yong){
   results.marriage=hasFavorable?
     '日支（配偶宫）藏吉神，暗示感情世界中较为顺遂，容易遇到合拍之人。婚姻是一场共同成长的旅程，理解与包容比命理更重。':
     '日支无直接的吉神，感情之事需要更多的经营与耐心。缘分有时来得晚一些，但真情从来不会缺席。';
+  results.marriage_en=hasFavorable?
+    'Favorable stars in the Spouse Palace suggest harmonious relationships. Understanding and patience matter more than destiny.':
+    'The Spouse Palace lacks direct favorable stars. Relationships require more patience. True love never fails to arrive.';
   // 学业
   results.education=yin>=3?'印星旺盛，天生对知识有亲近感。学习能力在命理格局中属于上乘，但真正的智慧来自知行合一。':
     yin>=1?'印星有根，具备良好的学习基础。不必羡慕天赋异禀之人，持续的努力终将让知识生根发芽。':
     '印星偏弱，或许不是传统意义上的"学霸"，但在实践和体验中学习的能力往往更加珍贵。';
+  results.education_en=yin>=3?'Strong academic stars suggest natural affinity for knowledge. True wisdom comes from applying what you learn.':
+    yin>=1?'Moderate academic stars provide a solid foundation. Consistency brings lasting results.':
+    'You may learn best through experience. That gift is equally precious.';
   // 健康
   const weakest=elemAnalysis(b).weakest;
   const issue={木:'注意肝胆养护，保持情绪舒畅',火:'关注心血管健康，避免过度劳累',土:'调理脾胃，规律饮食最重要',金:'注意呼吸道保养，戒烟限酒',水:'关注肾脏与泌尿系统，多喝水少熬夜'};
+  const issue_en={木:'Care for liver health; maintain emotional balance.',火:'Watch cardiovascular health; avoid overwork.',土:'Nurture digestive system; eat regularly.',金:'Protect respiratory system; avoid smoking.',水:'Care for kidneys; stay hydrated and rested.'};
   results.health=`五行以${b.strongest}最强、${weakest}最弱。${issue[weakest]}。${yong.strong?'日主身强，总体体质不错，但不可因此疏忽日常保养。':'日主偏弱，更需注重作息规律，养生即是养命。'}健康是一切的基础，无论命盘如何，善待身体就是最好的转运。`;
+  results.health_en=`Five Elements: strongest ${b.strongest}, weakest ${weakest}. ${issue_en[weakest]} ${yong.strong?'Day Master is strong - good constitution. Still, daily care matters.':'Day Master is weaker - regularity is key. Health is wealth.'} Health is the foundation of everything.`;
   // 福祸总论
   const totalScore=Object.values(b.elems).reduce((a,b)=>a+b,0);
   results.overall=yong.strong?
     '命盘格局偏向稳健，一生虽有起伏但整体向上。传统命理认为此格局对逆境的承受力较强，顺境时不骄，逆境时不馁，便是最好的活法。':
     '命盘偏柔，人生之路或有更多波折，但也因此更能体会坚韧的力量。每一次低谷都是下一段攀登的起点。';
+  results.overall_en=yong.strong?
+    'Your chart shows remarkable resilience. Stay humble in success, steadfast in challenge.':
+    'A gentler path with valuable lessons. Every valley is the start of the next climb.';
+  results.lifespan='传统命理中，寿期不可轻断。日主旺衰与用神配合决定根基之厚薄。'+(yong.strong?'你的命盘根基较为稳固，犹如大树立于沃土。但长寿的真正秘诀在于：平和的心态、规律的生活、以及爱与被爱的能力。':'根基稍薄但并非不能长久。古人云"弱水三千可载舟"，养护之道胜于天生。善待身体、善养精神，便是最好的延寿之法。');
+  results.lifespan_en='In traditional theory, lifespan cannot be lightly determined. '+(yong.strong?'Your foundation is stable - but true longevity comes from peace of mind, regular habits, and the capacity to love and be loved.':'The foundation may be lighter but not fragile. Care and nurture matter more than constitution. Longevity is about how you live.');
   return results;
 }
 
@@ -575,7 +617,7 @@ function drawCard(b,st,g){
   if(st.hidden){c.fillStyle=gc;c.font='bold 10px "Courier New"';c.fillText(`隐藏成就: ${st.hidden.lore}`,W/2,sy2+98);}
   const fy=sy2+112;
   c.strokeStyle='#1e3799';c.lineWidth=1;c.beginPath();c.moveTo(18,fy);c.lineTo(W-18,fy);c.stroke();
-  c.fillStyle='#4a69bd';c.font='9px "Courier New"';c.fillText('© PixelBaZi v2 · Forever Chitanda · 仅供参考',W/2,fy+16);
+  c.fillStyle='#4a69bd';c.font='9px "Courier New"';c.fillText('© PixelBaZi v3 · Forever Chitanda · 仅供参考',W/2,fy+16);
   c.fillText(`日主${b.dayStem} · ${b.dayElem}命 · ${b.shengxiao}年 · ${b.zodiac.emoji}${b.zodiac.name}`,W/2,fy+30);
   c.fillText(`值日${b.mansion.name}(${b.mansion.animal}) · ${b.mansion.ausp?'吉星':'平星'} · ${b.weekday}`,W/2,fy+44);
 }
@@ -720,8 +762,59 @@ function doCalc(){
   document.getElementById('result').style.display='block';
   document.getElementById('result').classList.add('show');
   switchTab('rpg');
+  saveHistory2();
 }
 
+// ---- 流年详批 ----
+const LN_GAN_TIPS={
+  '正官':'利于事业、名声与规则之事，宜把握职场机会。','七杀':'压力与挑战并存之年，宜以静制动、谨言慎行。',
+  '正印':'学习运佳，贵人相助，适合进修、考证、积累。','偏印':'思维活跃，灵感多但易分心，宜专注一事。',
+  '比肩':'合作与竞争并存，凭实力说话，防口舌是非。','劫财':'财物易有波动，谨慎投资，防破财与小人。',
+  '食神':'心情舒畅，才华可展，宜创作、享受生活。','伤官':'表现欲强，利于创新，但需注意言辞分寸。',
+  '正财':'财运平稳向好，正职收入可观，宜储蓄。','偏财':'偏财运旺，投资机会多，但需见好就收。'
+};
+const LN_GOOD=['正印','偏印','正官','比肩','食神','正财'];
+const LN_HE={'子':'丑','丑':'子','寅':'亥','亥':'寅','卯':'戌','戌':'卯','辰':'酉','酉':'辰','巳':'申','申':'巳','午':'未','未':'午'};
+const LN_CHONG={'子':'午','午':'子','丑':'未','未':'丑','寅':'申','申':'寅','卯':'酉','酉':'卯','辰':'戌','戌':'辰','巳':'亥','亥':'巳'};
+const LN_HAI={'子':'未','未':'子','丑':'午','午':'丑','寅':'巳','巳':'寅','卯':'辰','辰':'卯','申':'亥','亥':'申','酉':'戌','戌':'酉'};
+function lnDetail(){
+  const b=curB;if(!b){showT('请先生成命盘');return;}
+  const y=parseInt(document.getElementById('lnYear').value);
+  if(!y||y<1900||y>2200){showT('请输入有效年份（1900-2200）');return;}
+  const ln=calcLiuNian(y,b.dayStem);
+  const ny=['海中金','炉中火','大林木','路旁土','剑锋金','山头火','涧下水','城头土','白蜡金','杨柳木','泉中水','屋上土','霹雳火','松柏木','长流水','沙中金','山下火','平地木','壁上土','金箔金','覆灯火','天河水','大驿土','钗钏金','桑柘木','大溪水','沙中土','天上火','石榴木','大海水'];
+  const nayin=ny[Math.floor(((y-4)%60)/2)]||'';
+  // 流年地支与四柱地支的合冲害
+  const brs=[['年',b.yearGZ[1]],['月',b.monthGZ[1]],['日',b.dayGZ[1]],['时',b.timeGZ[1]]];
+  const rels=[];
+  brs.forEach(([n,br])=>{
+    if(LN_CHONG[br]===ln.yearBranch)rels.push({t:'冲',n,br,desc:'变动、冲突，主出行或环境变化，宜低调稳健'});
+    if(LN_HE[br]===ln.yearBranch)rels.push({t:'合',n,br,desc:'和谐、合作，主贵人相助、人际顺畅'});
+    if(LN_HAI[br]===ln.yearBranch)rels.push({t:'害',n,br,desc:'暗损、小人，主防口舌是非、谨慎合作'});
+  });
+  // 十神吉凶
+  const isGood=LN_GOOD.includes(ln.ss);
+  // 五行分析：流年天干五行 vs 日主
+  const ganElem=S_ELEM[STEMS.indexOf(ln.yearStem)];
+  const gen={木:'水',火:'木',土:'火',金:'土',水:'金'};
+  const ctrl={木:'金',火:'水',土:'木',金:'火',水:'土'};
+  let rel='',relDesc='';
+  if(ganElem===b.dayElem){rel='同气';relDesc='流年五行与日主同气，气机贯通，身心状态与行事节奏较为协调。';}
+  else if(gen[ganElem]===b.dayElem){rel='相生';relDesc='流年五行生日主，外界助力明显，机会与资源向你靠拢。';}
+  else if(gen[b.dayElem]===ganElem){rel='泄气';relDesc='日主生辰流年，付出较多的一年，宜劳逸结合、量力而行。';}
+  else if(ctrl[ganElem]===b.dayElem){rel='相克';relDesc='流年五行克日主，压力与考验较多，宜守不宜攻、谨言慎行。';}
+  else{rel='被克';relDesc='日主克流年，主动性强但易操劳，宜以柔克刚、顺势而为。';}
+  const l=curLang2||'zh';
+  let html=`<div class="liunian-item" style="margin-top:8px;border:1px solid ${isGood?'var(--m)':'var(--f)'}">`;
+  html+=`<div class="ln-year">📅 ${y}年 · ${ln.gz} · ${nayin}</div>`;
+  html+=`<div class="ln-detail">`;
+  html+=`<div style="margin-bottom:5px">流年天干 <b style="color:${E_COLOR[ganElem]}">${ln.yearStem}</b>（${ganElem}）与日主 ${b.dayStem}（${b.dayElem}）构成<b>「${ln.ss}」</b>，五行关系为<b>「${rel}」</b>。${relDesc}</div>`;
+  html+=`<div style="margin-bottom:5px">${LN_GAN_TIPS[ln.ss]||''}</div>`;
+  html+=`<div style="margin-bottom:5px">流年地支 <b>${ln.yearBranch}</b> 与四柱：${rels.length?rels.map(r=>`${r.n}柱${r.br}（${r.t}，${r.desc}）`).join('；'):'无明显冲合害，关系平和。'}</div>`;
+  html+=`<div style="color:${isGood?'var(--m)':'var(--f)'}">${isGood?'▸ 整体判断：此年运势偏顺，宜抓住机会、稳步推进，贵人运可期。':'▸ 整体判断：此年波动较多，宜稳守阵地、提前规划，化压力为动力。'}记住：流年只是背景色，你才是执笔人。</div>`;
+  html+=`</div></div>`;
+  document.getElementById('lnDetailBox').innerHTML=html;
+}
 function switchTab(tab){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
@@ -790,16 +883,26 @@ function renderAnalysis(b,ss,dy,ys,dm,cz,sns,hc){
     html+=`<div class="liunian-item"><span class="ln-year">${ln.gz}</span> <span class="ln-tag ln-${(['正印','偏印','正官','比肩','食神','正财'].includes(ln.ss)?'good':'warn')}">${ln.ss}</span></div>`;
   });
 
+  // 流年详批（自定义年份）
+  const l2=curLang2||'zh';
+  html+=`<div class="sec-subtitle" style="margin-top:14px">🔍 流年详批 · 自定义年份</div>`;
+  html+=`<div style="display:flex;gap:8px;margin:6px 0">`;
+  html+=`<input type="number" id="lnYear" min="1900" max="2200" value="${nowY+1}" placeholder="${l2==='zh'?'输入年份':'Year'}" style="flex:1;text-align:center">`;
+  html+=`<button class="btn sm muted" style="flex:0 0 90px;margin-top:0" onclick="lnDetail()">${l2==='zh'?'详批':'Detail'}</button>`;
+  html+=`</div>`;
+  html+=`<div id="lnDetailBox"></div>`;
+
   // 七维分析
-  html+=`<div class="sec-title">🔍 七维深度分析</div>`;
+  html+=`<div class="sec-title">${l2==='zh'?'🔍 七维深度分析':'🔍 Seven-Dimension Analysis'}</div>`;
+  const enames={career:'Career',wealth:'Wealth',marriage:'Marriage',education:'Education',health:'Health',overall:'Fortune',lifespan:'Foundation'};
   const dims=[
-    {id:'career',icon:'🏛️',name:'官运·事业',score:Math.min(100,ss.正官*25+ss.七杀*20+ss.正印*15),text:dm.career},
-    {id:'wealth',icon:'💰',name:'家财·财运',score:Math.min(100,ss.正财*25+ss.偏财*20),text:dm.wealth},
-    {id:'marriage',icon:'💕',name:'婚姻·感情',score:Math.min(100,(ss.正官+ss.正财)*20+ss.正印*15),text:dm.marriage},
-    {id:'education',icon:'📚',name:'升学·学业',score:Math.min(100,ss.正印*25+ss.偏印*20+ss.食神*10),text:dm.education},
-    {id:'health',icon:'💚',name:'病逾·健康',score:Math.min(100,80-(b.elems[b.weakest])*15),text:dm.health},
-    {id:'overall',icon:'🌟',name:'福祸·总论',score:ys.strong?70:45,text:dm.overall},
-    {id:'lifespan',icon:'🕊️',name:'寿期·根基',score:ys.strong?75:55,text:'传统命理中，寿期不可轻断。日主旺衰与用神配合决定根基之厚薄。'+(ys.strong?'你的命盘根基较为稳固，犹如大树立于沃土。但长寿的真正秘诀在于：平和的心态、规律的生活、以及爱与被爱的能力。':'根基稍薄但并非不能长久。古人云"弱水三千可载舟"，养护之道胜于天生。善待身体、善养精神，便是最好的延寿之法。')}
+    {id:'career',icon:'🏛️',name:l2==='zh'?'官运·事业':'Career',score:Math.min(100,ss.正官*25+ss.七杀*20+ss.正印*15),text:l2==='zh'?dm.career:(dm.career_en||dm.career)},
+    {id:'wealth',icon:'💰',name:l2==='zh'?'家财·财运':'Wealth',score:Math.min(100,ss.正财*25+ss.偏财*20),text:l2==='zh'?dm.wealth:(dm.wealth_en||dm.wealth)},
+    {id:'marriage',icon:'💕',name:l2==='zh'?'婚姻·感情':'Marriage',score:Math.min(100,(ss.正官+ss.正财)*20+ss.正印*15),text:l2==='zh'?dm.marriage:(dm.marriage_en||dm.marriage)},
+    {id:'education',icon:'📚',name:l2==='zh'?'升学·学业':'Education',score:Math.min(100,ss.正印*25+ss.偏印*20+ss.食神*10),text:l2==='zh'?dm.education:(dm.education_en||dm.education)},
+    {id:'health',icon:'💚',name:l2==='zh'?'病逾·健康':'Health',score:Math.min(100,80-(b.elems[b.weakest])*15),text:l2==='zh'?dm.health:(dm.health_en||dm.health)},
+    {id:'overall',icon:'🌟',name:l2==='zh'?'福祸·总论':'Fortune',score:ys.strong?70:45,text:l2==='zh'?dm.overall:(dm.overall_en||dm.overall)},
+    {id:'lifespan',icon:'🕊️',name:l2==='zh'?'寿期·根基':'Foundation',score:ys.strong?75:55,text:l2==='zh'?dm.lifespan:(dm.lifespan_en||dm.lifespan)}
   ];
   html+=`<div class="dim-cards">`;
   dims.forEach(d=>{
@@ -829,7 +932,7 @@ function renderAnalysis(b,ss,dy,ys,dm,cz,sns,hc){
   // ---- 合冲 ----
   if(hc.length>0){
     html+=`<div class="sec-title">🔗 合冲刑害 · 四柱互动</div>`;
-    html+=`<div style="padding:8px;background:#0c0c22;border:1px solid var(--bdr);font-size:11px;line-height:2">`;
+    html+=`<div style="padding:8px;background:var(--inp);border:1px solid var(--bdr);font-size:11px;line-height:2">`;
     hc.forEach(h=>{
       html+=`<span class="hechong-item ${h.cls}"><span class="tip" data-tip="${h.type==='合'?'地支六合：两柱地支相合，主和谐、合作、吸引。':h.type==='冲'?'地支六冲：两柱地支相冲，主变动、冲突、分离。':h.type==='害'?'地支六害：暗中不利，主小人、隐忧。':'地支三刑：主是非、纠纷、法律问题。'}">${h.a}${h.b}${h.type}</span> ${h.detail}</span>`;
     });
@@ -847,14 +950,14 @@ function renderAnalysis(b,ss,dy,ys,dm,cz,sns,hc){
   html+=`</div>`;
 
   // 二十八宿
-  html+=`<div style="margin:8px 0;padding:10px 12px;background:#0c0c22;border:1px solid var(--bdr);font-size:11px">`;
+  html+=`<div style="margin:8px 0;padding:10px 12px;background:var(--inp);border:1px solid var(--bdr);font-size:11px">`;
   html+=`<span style="color:var(--gold);font-size:14px">🐉 ${b.mansion.name} · ${b.mansion.animal}</span>`;
   html+=`<span style="margin-left:8px;color:${b.mansion.ausp?'var(--m)':'var(--f)'};font-size:10px">${b.mansion.ausp?'吉':'平'}</span>`;
   html+=`<div style="color:var(--dim);margin-top:4px">值日二十八宿之${b.mansion.name}，${b.mansion.elem}象。${b.mansion.desc}。</div>`;
   html+=`</div>`;
 
   // 星座解读
-  html+=`<div style="margin:8px 0;padding:10px 12px;background:#0c0c22;border:1px solid var(--bdr);font-size:11px;color:var(--dim);line-height:1.6">`;
+  html+=`<div style="margin:8px 0;padding:10px 12px;background:var(--inp);border:1px solid var(--bdr);font-size:11px;color:var(--dim);line-height:1.6">`;
   html+=`${b.zodiac.emoji} <b style="color:var(--text)">${b.zodiac.name}</b>：${b.zodiac.trait}<br>`;
   html+=`星座对应西方占星体系，与八字互补参照。不同的文化视角，共同指向一个完整的人。`;
   html+=`</div>`;
@@ -875,7 +978,7 @@ function renderAnalysis(b,ss,dy,ys,dm,cz,sns,hc){
   // ---- 测字 ----
   if(cz){
     html+=`<div class="sec-title">✍️ 测字 · 字象</div>`;
-    html+=`<div style="margin:8px 0;padding:12px;background:#0c0c22;border:1px solid var(--bdr);text-align:center">`;
+    html+=`<div style="margin:8px 0;padding:12px;background:var(--inp);border:1px solid var(--bdr);text-align:center">`;
     html+=`<div style="font-size:36px;color:var(--gold);letter-spacing:8px;margin-bottom:8px">「${cz.text}」</div>`;
     const sc=cz.sign;const scCol=sc==='吉'?'var(--m)':sc==='小吉'?'var(--accent)':sc==='亨'?'var(--gold)':sc==='平'?'var(--dim)':'var(--f)';
     html+=`<div style="color:${scCol};font-size:16px;font-weight:bold;margin:6px 0">${sc==='吉'?'🟢 大吉':sc==='小吉'?'🟡 小吉':sc==='亨'?'🟡 亨通':sc==='平'?'⚪ 平稳':'🔴 宜慎'} · ${sc}</div>`;
@@ -926,44 +1029,137 @@ function downloadAnalysis(){
 function goBack(){document.getElementById('inputPage').style.display='block';document.getElementById('result').style.display='none';document.getElementById('result').classList.remove('show')}
 function randomBazi(){const y=1950+Math.floor(Math.random()*60),m=1+Math.floor(Math.random()*12),d=1+Math.floor(Math.random()*28),h=[0,1,3,5,7,9,11,13,15,17,19,21,23][Math.floor(Math.random()*13)];document.getElementById('by').value=y;document.getElementById('bm').value=m;document.getElementById('bd').value=d;document.getElementById('bh').value=h;showT('🎲 '+y+'年'+m+'月'+d+'日 '+h+'时')}
 function showT(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),2200)}
+let curLang2='zh';
+function setLang2(l){
+  curLang2=l;
+  document.getElementById('btnZh2').classList.toggle('active',l==='zh');
+  document.getElementById('btnEn2').classList.toggle('active',l==='en');
+  document.querySelectorAll('.tr').forEach(el=>{
+    const txt=el.getAttribute('data-'+l);
+    if(txt!==null)el.textContent=txt;
+  });
+  document.querySelectorAll('[data-ph-zh]').forEach(el=>{
+    el.placeholder=el.getAttribute('data-ph-'+(l==='zh'?'zh':'en'));
+  });
+}
 
-// ---- Help Modals ----
-const MODAL_CONTENT={
-  guide:`<h2>📖 使用说明</h2>
-<p><b>第一步：</b>输入公历出生年月日，选择出生时辰和性别。</p>
-<p><b>第二步（可选）：</b>在测字框输入任意文字或数字，系统将为你拆字解字。</p>
-<p><b>第三步：</b>点击「生成命盘」，查看你的八字排盘与分析。</p>
-<p><b>两个 Tab：</b></p>
-<ul>
-<li><b>🎮 像素 RPG 卡</b> — 八字化为角色属性卡，可下载 PNG 或复制文案发朋友圈。</li>
-<li><b>📜 命理深析</b> — 大运、十神、流年、七维分析、神煞、星象、测字。可复制或导出报告。</li>
+
+function openModal(type){
+  const l=curLang2;
+  const c={
+    guide:l==='zh'?`<h2>📖 使用说明</h2><p><b>第一步：</b>输入公历出生年月日，选择时辰和性别。</p><p><b>第二步（可选）：</b>在测字框输入任意文字或数字。</p><p><b>第三步：</b>点击「生成命盘」查看分析。</p><p><b>两个 Tab：</b>🎮 像素RPG卡 / 📜 命理深析（含大运、十神、流年、神煞、星象等）</p><p>带虚线下划线的术语可悬停查看解释。</p>`:`<h2>📖 Guide</h2><p><b>Step 1:</b> Enter Gregorian birth date, hour, and gender.</p><p><b>Step 2 (optional):</b> Input a character or number for divination.</p><p><b>Step 3:</b> Click Generate to view your chart.</p><p><b>Two Tabs:</b> 🎮 RPG Card / 📜 Deep Analysis.</p><p>Hover underlined terms for explanations.</p>`,
+    disclaim:l==='zh'?`<h2>⚠️ 免责声明</h2>
+<p><b>1. 性质说明</b><br>本工具基于中国传统命理学说（八字/四柱）制作，输出内容属<b>传统文化研究与娱乐</b>范畴，并非科学预测，亦不代表任何确定性论断。</p>
+<p><b>2. 解读的主观性</b><br>所有分析解读均源自传统命理学文献与算法推演，带有浓厚的主观性与流派差异。任何关于人生运势、事业发展、婚姻感情、健康状况等的描述，均不代表事实预言。</p>
+<p><b>3. 不提供专业建议</b><br>本工具不提供任何医疗、法律、投资、婚恋等专业建议。涉及上述领域的重要决定，请务必咨询具备资质的专业人士。</p>
+<p><b>4. 决策责任</b><br>请勿将本工具的输出结果作为重大人生决策（如医疗决策、投资理财、法律行为、职业选择等）的唯一依据。您的人生由您的行动与选择决定，而非命盘。</p>
+<p><b>5. 数据与隐私</b><br>本工具为纯前端单文件应用，无服务器、无第三方跟踪。您的输入仅保存在本地浏览器（localStorage），不会上传任何数据；清除浏览器数据即可彻底删除。</p>
+<p><b>6. 知识产权</b><br>本工具代码以开源形式发布，仅限个人学习与娱乐使用。请勿用于任何商业牟利行为。</p>
+<p><b>7. 结语</b><br>命理可以是一种认识自我的视角，但真正改变人生的，永远是自己的行动与选择。继续使用本工具即表示您已阅读、理解并同意以上全部条款。</p>`:`<h2>⚠️ Disclaimer</h2>
+<p><b>1. Nature:</b> Built upon traditional Chinese metaphysics (BaZi), this tool is for <b>cultural study and entertainment</b>. It is not scientific prediction nor definitive assertion.</p>
+<p><b>2. Subjectivity:</b> All readings derive from classical literature and algorithmic inference, inherently subjective. Any statements about fortune, career, relationships, or health are not factual predictions.</p>
+<p><b>3. No professional advice:</b> This tool provides no medical, legal, financial, or relationship advice. Consult qualified professionals for major decisions.</p>
+<p><b>4. Decision responsibility:</b> Never use results as the sole basis for major life decisions. Your life is shaped by your actions and choices, not by a chart.</p>
+<p><b>5. Data &amp; privacy:</b> Pure front-end single-file app. No server, no tracking. Inputs stay in localStorage only; clearing browser data removes everything.</p>
+<p><b>6. Intellectual property:</b> Open-sourced for personal study and entertainment. Commercial misuse is prohibited.</p>
+<p><b>7. Closing:</b> Metaphysics may offer a lens on yourself, but real change comes from action and choice. By using this tool you accept all terms above.</p>`,
+    about:l==='zh'?`<h2>ℹ️ 关于本工具</h2>
+<p><b>像素命盘 · PixelBaZi</b> — 一款单文件 HTML 中国传统八字命理工具，将千年命理学说与像素 RPG 美学相融合，让玄学变得好看、好玩、好懂。</p>
+<p><b>核心功能</b></p>
+<ul style="margin:4px 0 0 18px;line-height:2;font-size:12px">
+<li>⚔️ 像素 RPG 卡：八字化为职业/技能/属性/HP-MP 角色卡</li>
+<li>📜 命理深析：四柱、大运、十神、流年、神煞、二十八宿</li>
+<li>🌊 七维深度分析：性格、事业、财运、感情、健康等</li>
+<li>🔍 流年详批：自定义年份查看当年运势与合冲</li>
+<li>✍️ 测字解字：结合拆字与命盘交叉解读</li>
+<li>🎴 卡片导出：生成 PNG 卡片或复制文案发圈</li>
+<li>📄 报告导出：完整命理报告导出为文本</li>
+<li>🌐 中英双语：一键切换，支持全球用户</li>
+<li>🌙 亮暗主题：暗夜护眼，随心切换</li>
 </ul>
-<p><b>术语解释：</b>带虚线下划线的术语可悬停查看解释。</p>
-<p><b>关于准确度：</b>八字排盘基于天文历法算法，精准可靠。命理解读参考传统学说，仅供文化研究和娱乐参考。</p>`,
-  disclaim:`<h2>⚠️ 免责声明</h2>
-<p>本工具基于中国传统命理学说（八字/四柱），<b>仅供娱乐和文化参考</b>。</p>
-<p>所有分析解读均源自传统命理学文献与算法推演，并非科学预测或确定性论断。任何关于人生运势、事业发展、婚姻感情、健康状况等的描述，均不代表事实预言。</p>
-<p><b>请勿将本工具的输出结果作为重大人生决策的依据</b>，包括但不限于：医疗决策、投资理财、法律行为、职业选择等。</p>
-<p>人生之路不在命盘之中，而在脚下每一步。命理可以是一种认识自我的视角，但真正改变人生的，永远是自己的行动与选择。</p>
-<p>使用本工具即表示你已理解并接受以上声明。</p>`,
-  about:`<h2>ℹ️ 关于像素命盘</h2>
-<p><b>像素命盘 PixelBaZi</b> 是一款单文件 HTML 中国传统八字命理工具，将千年命理学说与像素 RPG 美学相融合。</p>
-<p><b>技术栈：</b>纯前端 HTML/CSS/JS + Canvas<br>
-<b>天文算法：</b>lunar-javascript 天文历法库<br>
-<b>命理体系：</b>子平八字、纳音、十神、神煞、二十八宿、河图洛书</p>
+<p><b>技术说明</b><br>纯前端单文件 HTML/CSS/JS + Canvas，无后端、无依赖、无数据上传。<br>天文历法采用 lunar-javascript 库，排盘精准可靠。<br>命理体系涵盖子平八字、纳音、十神、神煞、二十八宿、河图洛书。</p>
 <p><b>作者：</b>永远的兰兰 (Forever Chitanda)</p>
 <p><b>开源地址：</b><a href="https://github.com/podcatcher962/PixelBaZi" target="_blank" style="color:var(--accent)">github.com/podcatcher962/PixelBaZi</a></p>
 <p><b>在线体验：</b><a href="https://podcatcher962.github.io/PixelBaZi/" target="_blank" style="color:var(--accent)">podcatcher962.github.io/PixelBaZi</a></p>
-<p style="margin-top:10px;color:var(--dim);font-size:10px">© 永远的兰兰 · Forever Chitanda · 2026</p>`
-};
-
-function openModal(type){
-  document.getElementById('modalBox').innerHTML=`<button class="modal-close" onclick="closeModal()">✕</button>${MODAL_CONTENT[type]||''}`;
+<p style="margin-top:10px;color:var(--dim);font-size:10px">© 永远的兰兰 · Forever Chitanda · 2026 · 仅供文化参考</p>`:`<h2>ℹ️ About</h2>
+<p><b>PixelBaZi</b> — a single-file HTML BaZi (Eight Characters) tool blending ancient metaphysics with pixel RPG aesthetics.</p>
+<p><b>Features</b></p>
+<ul style="margin:4px 0 0 18px;line-height:2;font-size:12px">
+<li>⚔️ Pixel RPG card: class, skills, attributes, HP-MP</li>
+<li>📜 Deep analysis: pillars, luck cycles, ten gods, stars</li>
+<li>🌊 Seven-dimension analysis: personality, career, wealth, love, health</li>
+<li>🔍 Yearly forecast: custom year detail with clashes &amp; combinations</li>
+<li>✍️ Character divination (CeZi) combined reading</li>
+<li>🎴 Card export as PNG or share text</li>
+<li>📄 Full report export as text</li>
+<li>🌐 Bilingual: Chinese / English</li>
+<li>🌙 Light &amp; dark themes</li>
+</ul>
+<p><b>Tech:</b> Single-file front-end HTML/CSS/JS + Canvas. No backend, no tracking, no data upload.<br>Astronomy: lunar-javascript library for precise chart calculation.<br>Systems: Zi-Ping BaZi, NaYin, Ten Gods, ShenSha, 28 Mansions, HeTu-LuoShu.</p>
+<p><b>Author:</b> Forever Chitanda (永远的兰兰)</p>
+<p><b>Source:</b> <a href="https://github.com/podcatcher962/PixelBaZi" target="_blank" style="color:var(--accent)">github.com/podcatcher962/PixelBaZi</a></p>
+<p><b>Online:</b> <a href="https://podcatcher962.github.io/PixelBaZi/" target="_blank" style="color:var(--accent)">podcatcher962.github.io/PixelBaZi</a></p>
+<p style="margin-top:10px;color:var(--dim);font-size:10px">© Forever Chitanda · 2026 · For cultural reference only</p>`
+  };
+  document.getElementById('modalBox').innerHTML=`<button class="modal-close" onclick="closeModal()">✕</button>${c[type]||''}`;
   document.getElementById('modalOverlay').classList.add('show');
 }
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('show');
 }
+
+// ========== THEME ==========
+function applyTheme2(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const b=document.getElementById('btnTheme2');if(b)b.textContent=t==='light'?'☀️':'🌙';
+}
+function toggleTheme2(){
+  const cur=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
+  applyTheme2(cur);try{localStorage.setItem('baziTheme',cur);}catch(e){}
+  showT(cur==='light'?'☀️ 已切换亮色主题':'🌙 已切换暗色主题');
+}
+
+// ========== HISTORY ==========
+function saveHistory2(){
+  try{
+    const b=curB;if(!b)return;
+    const rec={t:Date.now(),y:b.year,m:b.month,d:b.day,h:b.hour,g:curG,zi:document.getElementById('zi').value,dayGZ:b.dayGZ,cls:curS?curS.cls.name:''};
+    let arr=JSON.parse(localStorage.getItem('baziHistory')||'[]');
+    arr.unshift(rec);if(arr.length>30)arr=arr.slice(0,30);
+    localStorage.setItem('baziHistory',JSON.stringify(arr));
+  }catch(e){}
+}
+function openHistory2(){
+  let arr=[];try{arr=JSON.parse(localStorage.getItem('baziHistory')||'[]');}catch(e){}
+  if(arr.length===0){showT(curLang2==='zh'?'暂无历史命盘':'No history yet');return;}
+  const l=curLang2;
+  let html=`<h2>🕘 ${l==='zh'?'历史命盘':'History'}</h2><div style="max-height:50vh;overflow-y:auto">`;
+  arr.forEach((r,i)=>{
+    const d=new Date(r.t);
+    html+=`<div onclick="loadHistory2(${i})" style="padding:10px;border:1px solid var(--bdr);margin:6px 0;cursor:pointer;background:var(--inp)">`;
+    html+=`<div style="font-size:14px;color:var(--gold)">${r.y}年${r.m}月${r.d}日 ${r.h}时 · ${r.dayGZ}${r.cls?' · '+r.cls:''}</div>`;
+    html+=`<div style="font-size:10px;color:var(--dim);margin-top:4px">${d.toLocaleString()}${r.zi?' · 「'+r.zi+'」':''}</div>`;
+    html+=`</div>`;
+  });
+  html+=`</div><div style="margin-top:10px;text-align:center"><button class="btn muted sm" onclick="clearHistory2()">🗑 ${l==='zh'?'清空历史':'Clear'}</button></div>`;
+  document.getElementById('modalBox').innerHTML=`<button class="modal-close" onclick="closeModal()">✕</button>${html}`;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function loadHistory2(i){
+  let arr=[];try{arr=JSON.parse(localStorage.getItem('baziHistory')||'[]');}catch(e){}
+  const r=arr[i];if(!r)return;
+  document.getElementById('by').value=r.y;
+  document.getElementById('bm').value=r.m;
+  document.getElementById('bd').value=r.d;
+  document.getElementById('bh').value=r.h;
+  document.getElementById('bg').value=r.g||'male';
+  document.getElementById('zi').value=r.zi||'';
+  closeModal();doCalc();
+}
+function clearHistory2(){try{localStorage.removeItem('baziHistory');}catch(e){}closeModal();showT(curLang2==='zh'?'🗑 历史已清空':'🗑 History cleared');}
+
+// init theme
+(function(){try{applyTheme2(localStorage.getItem('baziTheme')||'dark');}catch(e){applyTheme2('dark');}})();
 </script>
 </body>
 </html>
