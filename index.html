@@ -20,10 +20,10 @@
   --grid:rgba(30,55,153,0.06);--inset:rgba(0,0,0,0.3);--soft:rgba(0,0,0,0.2)
 }
 html[data-theme="light"]{
-  --bg:#eef1f8;--card:#ffffff;--bdr:#b8c4e8;--accent:#4a69bd;
-  --gold:#b8860b;--text:#2f3542;--dim:#636e72;
-  --inp:#e8ecf5;--inpText:#2f3542;--mutedBdr:#c8d0e5;--foot:#a4b0be;
-  --grid:rgba(74,105,189,0.08);--inset:rgba(0,0,0,0.04);--soft:rgba(0,0,0,0.05)
+  --bg:#f2e6cd;--card:#faf0dc;--bdr:#b8914f;--accent:#8a6a35;
+  --gold:#7a5c1e;--text:#3e2f1d;--dim:#7d6a4d;
+  --inp:#f7ecd6;--inpText:#3e2f1d;--mutedBdr:#d8c39a;--foot:#a08a63;
+  --grid:rgba(138,106,53,0.08);--inset:rgba(90,60,30,0.05);--soft:rgba(90,60,30,0.06)
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
@@ -1159,7 +1159,7 @@ function loadHistory2(i){
 function clearHistory2(){try{localStorage.removeItem('baziHistory');}catch(e){}closeModal();showT(curLang2==='zh'?'🗑 历史已清空':'🗑 History cleared');}
 
 // init theme
-(function(){try{applyTheme2(localStorage.getItem('baziTheme')||'dark');}catch(e){applyTheme2('dark');}})();
+(function(){try{applyTheme2(localStorage.getItem('baziTheme')||'light');}catch(e){applyTheme2('light');}})();
 </script>
 </body>
 </html>
