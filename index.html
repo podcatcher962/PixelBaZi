@@ -237,7 +237,6 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 </div>
 
 <div class="foot">© 像素命盘 PixelBaZi v3 · Forever Chitanda · 参考传统命理学说 · 仅供娱乐</div>
-<div id="visitCount" class="foot" style="margin-top:2px">👁 ···</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1161,12 +1160,6 @@ function clearHistory2(){try{localStorage.removeItem('baziHistory');}catch(e){}c
 
 // init theme
 (function(){try{applyTheme2(localStorage.getItem('baziTheme')||'dark');}catch(e){applyTheme2('dark');}})();
-// visitor counter
-(function(){try{
-  fetch('https://api.countapi.xyz/hit/pixelbazi-tool/visits')
-    .then(r=>r.json()).then(d=>{const e=document.getElementById('visitCount');if(e)e.innerHTML='👁 '+d.value+' 次访问';})
-    .catch(()=>{});
-}catch(e){}})();
 </script>
 </body>
 </html>
