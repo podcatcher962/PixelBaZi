@@ -160,7 +160,7 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 <div class="hdr">
 <h1>⚔ 像素命盘 ⚔</h1>
 <div class="sub tr" data-zh="PIXEL BAZI · 八字排盘 + 命理深析 · 传统文化参考 · 仅供娱乐" data-en="PIXEL BAZI · Four Pillars + Deep Analysis · Cultural Reference Only">PIXEL BAZI · 八字排盘 + 命理深析 · 传统文化参考 · 仅供娱乐</div>
-<div class="author">© 永远的兰兰 · Forever Chitanda</div>
+<div class="author">© 永远的兰兰 · Lanlan Eternal</div>
 </div>
 
 <div class="menu-bar">
@@ -236,7 +236,7 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 </div>
 </div>
 
-<div class="foot">© 像素命盘 PixelBaZi v3 · Forever Chitanda · 参考传统命理学说 · 仅供娱乐</div>
+<div class="foot">© 像素命盘 PixelBaZi v3 · Lanlan Eternal · 参考传统命理学说 · 仅供娱乐</div>
 <div class="foot" style="margin-top:4px">🧰 系列工具 · <a href="https://podcatcher962.github.io/PixelBaZi/" target="_blank" rel="noopener">⚔ 像素命盘</a> · <a href="https://podcatcher962.github.io/IChing/" target="_blank" rel="noopener">🪙 六爻起卦</a> · <a href="https://podcatcher962.github.io/YuguTether/" target="_blank" rel="noopener">📜 与古为徒</a></div>
 <div class="toast" id="toast"></div>
 
@@ -618,7 +618,7 @@ function drawCard(b,st,g){
   if(st.hidden){c.fillStyle=gc;c.font='bold 10px "Courier New"';c.fillText(`隐藏成就: ${st.hidden.lore}`,W/2,sy2+98);}
   const fy=sy2+112;
   c.strokeStyle='#1e3799';c.lineWidth=1;c.beginPath();c.moveTo(18,fy);c.lineTo(W-18,fy);c.stroke();
-  c.fillStyle='#4a69bd';c.font='9px "Courier New"';c.fillText('© PixelBaZi v3 · Forever Chitanda · 仅供参考',W/2,fy+16);
+  c.fillStyle='#4a69bd';c.font='9px "Courier New"';c.fillText('© PixelBaZi v3 · Lanlan Eternal · 仅供参考',W/2,fy+16);
   c.fillText(`日主${b.dayStem} · ${b.dayElem}命 · ${b.shengxiao}年 · ${b.zodiac.emoji}${b.zodiac.name}`,W/2,fy+30);
   c.fillText(`值日${b.mansion.name}(${b.mansion.animal}) · ${b.mansion.ausp?'吉星':'平星'} · ${b.weekday}`,W/2,fy+44);
 }
@@ -1079,10 +1079,10 @@ function openModal(type){
 <li>🌙 亮暗主题：暗夜护眼，随心切换</li>
 </ul>
 <p><b>技术说明</b><br>纯前端单文件 HTML/CSS/JS + Canvas，无后端、无依赖、无数据上传。<br>天文历法采用 lunar-javascript 库，排盘精准可靠。<br>命理体系涵盖子平八字、纳音、十神、神煞、二十八宿、河图洛书。</p>
-<p><b>作者：</b>永远的兰兰 (Forever Chitanda)</p>
+<p><b>作者：</b>永远的兰兰 (Lanlan Eternal)</p>
 <p><b>开源地址：</b><a href="https://github.com/podcatcher962/PixelBaZi" target="_blank" style="color:var(--accent)">github.com/podcatcher962/PixelBaZi</a></p>
 <p><b>在线体验：</b><a href="https://podcatcher962.github.io/PixelBaZi/" target="_blank" style="color:var(--accent)">podcatcher962.github.io/PixelBaZi</a></p>
-<p style="margin-top:10px;color:var(--dim);font-size:10px">© 永远的兰兰 · Forever Chitanda · 2026 · 仅供文化参考</p>`:`<h2>ℹ️ About</h2>
+<p style="margin-top:10px;color:var(--dim);font-size:10px">© 永远的兰兰 · Lanlan Eternal · 2026 · 仅供文化参考</p>`:`<h2>ℹ️ About</h2>
 <p><b>PixelBaZi</b> — a single-file HTML BaZi (Eight Characters) tool blending ancient metaphysics with pixel RPG aesthetics.</p>
 <p><b>Features</b></p>
 <ul style="margin:4px 0 0 18px;line-height:2;font-size:12px">
@@ -1097,10 +1097,10 @@ function openModal(type){
 <li>🌙 Light &amp; dark themes</li>
 </ul>
 <p><b>Tech:</b> Single-file front-end HTML/CSS/JS + Canvas. No backend, no tracking, no data upload.<br>Astronomy: lunar-javascript library for precise chart calculation.<br>Systems: Zi-Ping BaZi, NaYin, Ten Gods, ShenSha, 28 Mansions, HeTu-LuoShu.</p>
-<p><b>Author:</b> Forever Chitanda (永远的兰兰)</p>
+<p><b>Author:</b> Lanlan Eternal (永远的兰兰)</p>
 <p><b>Source:</b> <a href="https://github.com/podcatcher962/PixelBaZi" target="_blank" style="color:var(--accent)">github.com/podcatcher962/PixelBaZi</a></p>
 <p><b>Online:</b> <a href="https://podcatcher962.github.io/PixelBaZi/" target="_blank" style="color:var(--accent)">podcatcher962.github.io/PixelBaZi</a></p>
-<p style="margin-top:10px;color:var(--dim);font-size:10px">© Forever Chitanda · 2026 · For cultural reference only</p>`
+<p style="margin-top:10px;color:var(--dim);font-size:10px">© Lanlan Eternal · 2026 · For cultural reference only</p>`
   };
   document.getElementById('modalBox').innerHTML=`<button class="modal-close" onclick="closeModal()">✕</button>${c[type]||''}`;
   document.getElementById('modalOverlay').classList.add('show');
