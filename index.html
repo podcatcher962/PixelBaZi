@@ -153,9 +153,16 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 .modal-close{position:absolute;top:12px;right:16px;color:var(--dim);font-size:20px;cursor:pointer;background:none;border:none;font-family:inherit}
 .modal-close:hover{color:var(--gold)}
 .author{font-size:10px;color:var(--dim);letter-spacing:2px}
+/* Splash + 音乐 */
+#splash{position:fixed;inset:0;z-index:300;background:#f2e6cd url('generated-images/PixelBaZi_poster.jpg') center/contain no-repeat;animation:splashFade 9s ease forwards;}
+@keyframes splashFade{0%{opacity:0}8%{opacity:1}70%{opacity:1}100%{opacity:0;visibility:hidden}}
+.menu-bar a.active{color:var(--gold);font-weight:bold}
 </style>
 </head>
 <body>
+
+<div id="splash"></div>
+<audio id="bgm2" loop src="audio/pixelbazi.mp3"></audio>
 
 <div class="hdr">
 <h1>⚔ 像素命盘 ⚔</h1>
@@ -171,6 +178,7 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 <a id="btnZh2" class="active" onclick="setLang2('zh')" style="font-weight:bold">中</a>
 <a id="btnEn2" onclick="setLang2('en')">EN</a>
 <a id="btnTheme2" onclick="toggleTheme2()" style="font-size:13px">🌙</a>
+<a id="btnSound2" onclick="toggleSound2()" title="背景音乐">♪ <span class="tr" data-zh="音乐" data-en="Music">音乐</span></a>
 <a onclick="openHistory2()">🕘 <span class="tr" data-zh="历史" data-en="History">历史</span></a>
 </div>
 
@@ -1161,6 +1169,26 @@ function clearHistory2(){try{localStorage.removeItem('baziHistory');}catch(e){}c
 
 // init theme
 (function(){try{applyTheme2(localStorage.getItem('baziTheme')||'light');}catch(e){applyTheme2('light');}})();
+
+// ========== 背景音乐（默认播放） ==========
+let soundOn2 = true;
+function toggleSound2(){
+  soundOn2 = !soundOn2;
+  const bgm = document.getElementById('bgm2');
+  if(soundOn2){ bgm.play().catch(()=>{}); }
+  else { bgm.pause(); }
+  document.getElementById('btnSound2').className = soundOn2 ? 'active' : '';
+}
+(function(){
+  const bgm = document.getElementById('bgm2');
+  if(!bgm) return;
+  bgm.volume = 0.25;
+  bgm.play().catch(()=>{});
+  document.getElementById('btnSound2').className = 'active';
+  document.addEventListener('pointerdown', function(){
+    if(soundOn2 && bgm.paused) bgm.play().catch(()=>{});
+  });
+})();
 </script>
 </body>
 </html>
