@@ -157,6 +157,10 @@ canvas{image-rendering:pixelated;max-width:100%;height:auto;border-radius:2px}
 #splash{position:fixed;inset:0;z-index:300;background:#f2e6cd url('generated-images/PixelBaZi_poster.jpg') center/contain no-repeat;animation:splashFade 9s ease forwards;}
 @keyframes splashFade{0%{opacity:0}8%{opacity:1}70%{opacity:1}100%{opacity:0;visibility:hidden}}
 .menu-bar a.active{color:var(--gold);font-weight:bold}
+
+/* 白天主按钮修复：金棕渐变+深棕字（暗色保持深蓝+金） */
+html[data-theme="light"] .btn:not(.muted):not(.sm){background:linear-gradient(180deg,#c9a25a,#a37c34);color:#33230c;text-shadow:none}
+html[data-theme="light"] .btn:not(.muted):not(.sm):hover{background:linear-gradient(180deg,#d4b26a,#b18a40);border-color:var(--accent)}
 </style>
 </head>
 <body>
